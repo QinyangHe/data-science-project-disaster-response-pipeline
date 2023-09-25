@@ -1,8 +1,22 @@
 import sys
+import pandas as pd
+from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
-    pass
+    '''load raw data from the given file path
+    
+    Args:
+    messages_filepath: string. Filepath for messsage content data
+    categories_filepath: string. Filepath for message category data
+
+    Returns:
+    df: the dataframe of message data and categories data combined
+    '''
+    messages = pd.read_csv(messages_filepath)
+    categories = pd.read_csv(categories_filepath)
+    df = messages.merge(categories, on='id')
+    return df
 
 
 def clean_data(df):
@@ -14,6 +28,7 @@ def save_data(df, database_filename):
 
 
 def main():
+
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
